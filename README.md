@@ -1,6 +1,7 @@
 # EntityFramework Cannot Distinguish PostgreSQL `0001-01-01 00:00:00.000000 +00:00` from `-infinity` in Key Columns
 
 This repository contains demo code for a bug in Entity Framework that occurs when a timestamp column is used as part of a composite primary key.
+This issue is discussed in [npgsql/efcore.pg#2854](https://github.com/npgsql/efcore.pg/issues/2854).
 
 ## What's the problem?
 
