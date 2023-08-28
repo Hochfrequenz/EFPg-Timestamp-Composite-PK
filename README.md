@@ -13,7 +13,7 @@ There are multiple _different_ SQL values of (at least) type `timestamp with tim
 
 Hence, the mapping is not injective and not bi-unique so that the mapping is also not reversible.
 This causes problems when the timestamp column is used as part of a primary key.
-Entries whose the PK column holds the value `0001-01-01 00:00:00.000000 +00:00` can be `SELECT`ed but not `UPDATE`d although from a ORM user perspective the look the same.
+Entries where the PK column holds the value `0001-01-01 00:00:00.000000 +00:00` can be `SELECT`ed but not `UPDATE`d although from a ORM user perspective the look the same.
 
 The error message says:
 
