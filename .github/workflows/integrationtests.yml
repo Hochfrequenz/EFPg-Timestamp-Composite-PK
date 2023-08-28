@@ -26,7 +26,7 @@ jobs:
       - name: Run Integration Tests
         working-directory: MySolution/IntegrationTests
         run: |
-          TESTS=$(dotnet test --list-tests MySolution.sln | grep "FullyQualifiedName" | cut -d':' -f2 | tr -d ' ')
+          TESTS=$(dotnet test --list-tests | grep "FullyQualifiedName" | cut -d':' -f2 | tr -d ' ')
           for TEST in $TESTS; do
-            dotnet test MySolution.sln --filter FullyQualifiedName=$TEST
+            dotnet test --filter FullyQualifiedName=$TEST
           done
