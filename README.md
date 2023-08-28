@@ -13,7 +13,7 @@ There are multiple _different_ SQL values of (at least) type `timestamp with tim
 
 Hence, the mapping is not injective and not bi-unique so that the mapping is also not reversible.
 This causes problems when the timestamp column is used as part of a primary key.
-Entries with where the PK column holds the value `0001-01-01 00:00:00.000000 +00:00` can be `SELECT`ed but not `UPDATE`d.
+Entries whose the PK column holds the value `0001-01-01 00:00:00.000000 +00:00` can be `SELECT`ed but not `UPDATE`d although from a ORM user perspective the look the same.
 
 The error message says:
 > The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded.
@@ -27,7 +27,7 @@ This repository does the following:
   - then shows that from a EF user perspective the data look the same (the values named above are indistinguishable)
   - then tries to update the records and shows that this fails for those that originally did not use `-infinity`.
 
-### Start the database in docker
+### Start the Postgres database in docker
 
 ```bash
 docker-compose up -d
