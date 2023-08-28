@@ -1,0 +1,7 @@
+<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3e3fe98b_002D787a_002D4ef8_002D8567_002D7be562fb1687/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UpdateModelsCreatedInCsharpTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79D439B2-6E9E-4D54-88BF-4638CCA3EA83::net7.0::IntegrationTests.UpdateModelsCreatedInCsharpTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::79D439B2-6E9E-4D54-88BF-4638CCA3EA83::net7.0::IntegrationTests.UpdateModelsCreatedInRawSql.Test_Records_With_0001_DateTime_Instead_of_Minus_Infinity_Are_Found_And_Indistinguishable_But_Cannot_Be_Updated&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
