@@ -24,5 +24,9 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Run Integration Tests
-        working-directory: MySolution
-        run: dotnet test MySolution.sln --filter FullyQualifiedName~MySolution.IntegrationTests
+        working-directory: MySolution/IntegrationTests
+        run: |
+          TESTS=$(dotnet test --list-tests MySolution.sln | grep "FullyQualifiedName" | cut -d':' -f2 | tr -d ' ')
+          for TEST in $TESTS; do
+            dotnet test MySolution.sln --filter FullyQualifiedName=$TEST
+          done
