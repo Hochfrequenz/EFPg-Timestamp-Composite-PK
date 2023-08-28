@@ -1,0 +1,10 @@
+
+MySolution/DataModelAndMigration/obj/
+
+*.dll
+
+*.cache
+
+MySolution/IntegrationTests/obj/
+
+*.exe

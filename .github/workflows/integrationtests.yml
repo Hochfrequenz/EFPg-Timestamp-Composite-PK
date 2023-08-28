@@ -1,0 +1,28 @@
+name: Integration Tests
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.100"
+
+      - name: Install dependencies
+        working-directory: MySolution
+        run: dotnet restore MySolution.sln
+
+      - name: Build
+        working-directory: MySolution
+        run: dotnet build --no-restore
+
+      - name: Run Integration Tests
+        working-directory: MySolution
+        run: dotnet test MySolution.sln --filter FullyQualifiedName~MySolution.IntegrationTests
