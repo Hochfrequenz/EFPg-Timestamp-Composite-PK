@@ -16,7 +16,7 @@ jobs:
           dotnet-version: '7.0.100' 
 
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore MySolution.sln
 
       - name: Build
         run: dotnet build --no-restore
