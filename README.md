@@ -25,8 +25,8 @@ The error message says:
 This repository does the following:
 
 - There is minimal working example of the scenario described above, an ORM-annotated class [`MyModel`](MySolution/DataModelAndMigration/MyModel.cs) with a composite primary key consisting of a `Guid` and a `DateTimeOffset`.
-- There is a (boring) test that shows that we can update models just fine, if we create and INSERT them via C#/the ORM: [`MySolution/IntegrationTests/UpdatModelsCreatedInCSharpTests.cs`](MySolution/IntegrationTests/UpdateModelsCreatedInCSharpTests.cs)
-- There is a test to reproduce the issue that uses the same model class but
+- There is a (boring) test that shows that we can update models just fine, if we create and INSERT them via C#/the ORM: [`MySolution/IntegrationTests/UpdateModelsCreatedInCsharpTests.cs`](MySolution/IntegrationTests/UpdateModelsCreatedInCsharpTests.cs)
+- There is a test to reproduce the issue ([link](MySolution/IntegrationTests/UpdateExistingDataTests.cs)) that uses the same model class but
   - creates the data using [raw SQL](MySolution/IntegrationTests/upsert_example_data.sql) first
   - then shows that from a EF user perspective the data look the same (the values named above are indistinguishable)
   - then tries to update the records and shows that this fails for those that originally did not use `-infinity`.
