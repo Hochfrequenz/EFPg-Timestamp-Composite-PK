@@ -27,7 +27,7 @@ This repository does the following:
   - then shows that from a EF user perspective the data look the same (the values named above are indistinguishable)
   - then tries to update the records and shows that this fails for those that originally did not use `-infinity`.
 
-### Start the database in docker
+### Start the Postgres database in docker
 
 ```bash
 docker-compose up -d
