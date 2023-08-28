@@ -16,10 +16,13 @@ jobs:
           dotnet-version: '7.0.100' 
 
       - name: Install dependencies
+        working-directory: MySolution
         run: dotnet restore MySolution.sln
 
       - name: Build
+        working-directory: MySolution
         run: dotnet build --no-restore
 
       - name: Run Integration Tests
+        working-directory: MySolution
         run: dotnet test MySolution.sln --filter FullyQualifiedName~MySolution.IntegrationTests

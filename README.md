@@ -1,6 +1,6 @@
 # EntityFramework Cannot Distinguish PostgreSQL `0001-01-01 00:00:00.000000 +00:00` from `-infinity` in Key Columns
 
-Demo code for a bug in Entity Framework that occurs when a timestamp column is used as part of a composite primary key.
+This repository contains demo code for a bug in Entity Framework that occurs when a timestamp column is used as part of a composite primary key.
 
 ## What's the problem?
 
@@ -11,13 +11,21 @@ There are multiple _different_ SQL values of (at least) type `timestamp with tim
 | `-infinity`                         | `DateTimeOffset.MinValue` |
 | `0001-01-01 00:00:00.000000 +00:00` | `DateTimeOffset.MinValue` |
 
-Hence, the mapping is not injective and not bi-unique so that the mapping is not reversible.
+Hence, the mapping is not injective and not bi-unique so that the mapping is also not reversible.
 This causes problems when the timestamp column is used as part of a primary key.
-Entries with the value ``
+Entries with where the PK column holds the value `0001-01-01 00:00:00.000000 +00:00` can be `SELECT`ed but not `UPDATE`d.
 
+The error message says:
 > The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded.
 
-## How to run?
+## How to reproduce?
+This repository does the following:
+- There is minimal working example of the scenario described above, an ORM-annotated class [`MyModel`](MySolution/DataModelAndMigration/MyModel.cs) with a composite primary key consisting of a `Guid` and a `DateTimeOffset`.
+- There is a (boring) test that shows that we can update models just fine, if we create and INSERT them via C#/the ORM: [`MySolution/IntegrationTests/UpdatModelsCreatedInCSharpTests.cs`](MySolution/IntegrationTests/UpdateModelsCreatedInCSharpTests.cs)
+- There is a test to reproduce the issue that uses the same model class but 
+  - creates the data using [raw SQL](MySolution/IntegrationTests/upsert_example_data.sql) first
+  - then shows that from a EF user perspective the data look the same (the values named above are indistinguishable)
+  - then tries to update the records and shows that this fails for those that originally did not use `-infinity`.
 
 ### Start the database in docker
 
