@@ -8,6 +8,9 @@ using DataModelAndMigration;
 
 
 /// <summary>
+///
+/// THIS TEST IS ONLY FOR DEMO / BASIC UNDERSTANDING. IT DOES _NOT_ REPRODUCE THE BUG!
+/// 
 /// These tests demonstrate the models which have been created with the same version of the application which is now running are not affected by the problem.
 /// Meaning: Any new model, even those with DatePartOfKeys close to MinValue work fine.
 /// </summary>

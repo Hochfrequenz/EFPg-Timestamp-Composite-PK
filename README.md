@@ -1,10 +1,55 @@
-# EntityFramework-DateTime.MinValue-In-Composite-PK-Bug
-Demonstrates a bug in Entity Framework that occurs when a Datetime column is used as part of a composite primary key and entries with a value near 0 cannot be updated
+# EntityFramework Cannot Distinguish PostgreSQL `0001-01-01 00:00:00.000000 +00:00` from `-infinity` in Key Columns
+
+Demo code for a bug in Entity Framework that occurs when a timestamp column is used as part of a composite primary key.
+
+## What's the problem?
+
+There are multiple _different_ SQL values of (at least) type `timestamp with time zone` which are mapped to the _same_ C# value.
+
+| SQL value                           | C# value                  |
+|-------------------------------------|---------------------------|
+| `-infinity`                         | `DateTimeOffset.MinValue` |
+| `0001-01-01 00:00:00.000000 +00:00` | `DateTimeOffset.MinValue` |
+
+Hence, the mapping is not injective and not bi-unique so that the mapping is not reversible.
+This causes problems when the timestamp column is used as part of a primary key.
+Entries with the value ``
+
+> The database operation was expected to affect 1 row(s), but actually affected 0 row(s); data may have been modified or deleted since entities were loaded.
 
 ## How to run?
-Start the database in docker: 
+
+### Start the database in docker
+
 ```bash
 docker-compose up -d
 ```
+
 Make sure the port 5432 is not allocated.
-If it is allocated, change to a free port in [`docker-compose.yml`](docker-compose.yml) and the Application Context [`UseNpgsql` arg](MySolution/DataModelAndMigration/ApplicationContext.cs#L16).
+If it is allocated, change to a free port in [`docker-compose.yml`](docker-compose.yml) and the Application
+Context [`UseNpgsql` arg](MySolution/DataModelAndMigration/ApplicationContext.cs#L16).
+
+### Run the integration tests
+
+In either your ide or using
+
+```bash
+dotnet test MySolution.sln --filter FullyQualifiedName~MySolution.IntegrationTests
+```
+
+See the [`.github/workflows/integrationtests.yml`](.github/workflows/integrationtests.yml) for a full example from build to test.
+
+### How does the DB look like?
+
+The only relevant table is the `MyModels` table which is created by the migration:
+
+```sql
+create table public."MyModels"
+(
+    "GuidPartOfKey" uuid                     not null,
+    "DatePartOfKey" timestamp with time zone not null,
+    "SomeValue"     text                     not null,
+    constraint "PK_MyModels"
+        primary key ("GuidPartOfKey", "DatePartOfKey")
+)
+```

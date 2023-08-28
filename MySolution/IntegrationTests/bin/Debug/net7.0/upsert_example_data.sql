@@ -4,10 +4,21 @@
 WITH upd AS (
     UPDATE testdb.public."MyModels"
         SET "SomeValue" = 'foo',
-            "DatePartOfKey" = '0001-01-01 00:00:00.000000 +00:00' -- _not_ the same as '-infinity' but also mapped to DateTimeOffset.MinValue on C# side
-        WHERE "GuidPartOfKey" = '5ed0b229-4ab6-45fc-94c1-f7e6c69f9857'
+            "DatePartOfKey" = '0001-01-01 00:00:00.000000 +00:00' -- _not_ the same as '-infinity' but also mapped to DateTimeOffset.MinValue on C# side; cannot be updated
+        WHERE "GuidPartOfKey" = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
         RETURNING *)
 INSERT
 INTO testdb.public."MyModels" ("GuidPartOfKey", "DatePartOfKey", "SomeValue")
-SELECT '5ed0b229-4ab6-45fc-94c1-f7e6c69f9857', '0001-01-01 00:00:00.000000 +00:00', 'foo'
+SELECT 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '0001-01-01 00:00:00.000000 +00:00', 'foo'
+WHERE NOT EXISTS(SELECT 1 FROM upd);
+
+WITH upd AS (
+    UPDATE testdb.public."MyModels"
+        SET "SomeValue" = 'foo',
+            "DatePartOfKey" = '-infinity' -- mapped to DateTimeOffset.MinValue on C# side; Can be updated.
+        WHERE "GuidPartOfKey" = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+        RETURNING *)
+INSERT
+INTO testdb.public."MyModels" ("GuidPartOfKey", "DatePartOfKey", "SomeValue")
+SELECT 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '0001-01-01 00:00:00.000000 +00:00', 'foo'
 WHERE NOT EXISTS(SELECT 1 FROM upd);
